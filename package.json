@@ -1,0 +1,25 @@
+{
+  "name": "rate-my-class-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest --typecheck",
+    "test:ci": "vitest run",
+    "start": "node --experimental-strip-types src/server.ts",
+    "build": "npx tsc",
+    "dev": "tsx --watch --env-file=.env src/server.ts",  
+    "init-db": "node --env-file=.env src/database/init-db.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.1",
+  "dependencies": {
+    "express": "^5.2.1",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "vite": "^8.1.0"
+  }
+}
