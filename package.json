@@ -7,7 +7,7 @@
     "test": "vitest --typecheck",
     "test:ci": "vitest run",
     "start": "node --experimental-strip-types src/server.ts",
-    "build": "build": "pnpm list @types/node && tsc",
+    "build": "pnpm list @types/node && tsc",
     "dev": "tsx --watch --env-file=.env src/server.ts",
     "init-db": "node --env-file=.env src/database/init-db.js"
   },
