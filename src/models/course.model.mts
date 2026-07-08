@@ -15,7 +15,7 @@ async function getCourseByCode(courseCode: string): Promise<Course | null> {
 }
 
 async function createCourse(newCourse: Course) {
-    const result = await mongodb.getDb().collection<Course>("classs").insertOne(newCourse)
+    const result = await mongodb.getDb().collection<Course>("classes").insertOne(newCourse)
     return result
 }
 
