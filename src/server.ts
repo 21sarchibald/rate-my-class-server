@@ -1,5 +1,5 @@
 // Import the express library
-const express = require('express');
+import express from "express";
 
 // Initialize the express application
 const app = express();
