@@ -11,3 +11,12 @@ export interface User {
     createdAt: Date;
     modifiedAt: Date;
   }
+
+// Course schema
+export interface Course {
+  _id?: ObjectId;
+  courseCode: string;
+  courseName: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
