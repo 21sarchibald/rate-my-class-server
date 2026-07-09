@@ -5,6 +5,7 @@ export interface User {
     _id?: ObjectId;
     name: string;
     email: string;
+    username: string;
     password: string;
     major: string;
     userType: "Admin" | "Student";
@@ -28,7 +29,7 @@ export interface Review {
   courseId: ObjectId;
   rating: number;
   difficulty: number;
-  likelihoodToRecommend: number;
+  recommend: boolean;
   professor: string;
   semester: "Winter" | "Spring" | "Summer" | "Fall";
   year: number;
