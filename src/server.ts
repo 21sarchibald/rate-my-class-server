@@ -1,23 +1,28 @@
 // Import the express library
-import express from "express";
+import mongodb from "./database/index.mts";
+import app from './app.ts';
 
-import type { Request, Response } from "express";
+const port = process.env.PORT || 3000;
 
-// Initialize the express application
-const app = express();
 
-// Define a network port
-const PORT = process.env.PORT || 3000;
+// Initialize the database connection, we pass a callback into the function to handle any errors that may occur during the connection process.
+mongodb.initDb((err:Error) => {
+  if (err) {
+    console.error("Error initializing database:", err);
+    return;
+  } else {
+    // Start the server after successful initialization of the database
+      const server = app.listen(port, () => console.log(`Server is listening on port ${port}...`));
 
-// Middleware to automatically parse incoming JSON requests
-app.use(express.json());
-
-// Create a basic "GET" route for testing
-app.get('/', (req: Request, res: Response) => {
-    res.json({ message: "Backend is running successfully!" });
-});
-
-// Start the server and listen for requests
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+      if (process.env.NODE_ENV === 'production') {
+        // we only want this to happen in production
+      // Graceful Shutdown for SIGTERM (e.g., Heroku/AWS/Kubernetes restarts)
+      process.on('SIGTERM', () => {
+        console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
+        server.close(() => {
+          console.log('💥 Process terminated!');
+        });
+      });
+    }
+}
 });

@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-import mongodb from "../database/index.mts"
-=======
 import mongodb from "../database/index.mjs";
 import type { User } from "./types.mts";
 import { ObjectId } from "mongodb";
@@ -53,4 +50,3 @@ export default {
     updateUser,
     deleteUser
 }
->>>>>>> 93ab39aba1c27019867828644d35929c08971bbf
