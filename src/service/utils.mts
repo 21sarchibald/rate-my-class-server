@@ -1,6 +1,6 @@
 import type { QueryParams, User } from "../models/types.mts";
 import jwt from "jsonwebtoken";
-import EntityNotFoundError from "../errors/EntityNotFoundError.mts";
+import EntityNotFoundError from "../errors/EntityNotFoundError.mjs";
 import Ajv from "ajv";
 import addFormats from "ajv-formats"
 import addKeywords from "ajv-keywords"
