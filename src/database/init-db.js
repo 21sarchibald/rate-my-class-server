@@ -129,6 +129,8 @@ const seedReviews = async (db) => {
             isBlock: true,
             description: "Loved this class! Fast-paced but really worth it. I felt like I came out of there with great knowledge and skills to prepare me for the next class.",
             gradeReceived: "A",
+            likes: 10,
+            dislikes: 1,
             createdAt: Date.now(),
             updatedAt: Date.now()
         },
@@ -145,6 +147,8 @@ const seedReviews = async (db) => {
             isBlock: false,
             description: "Brother Christensen is a nice teacher, but the course material is hard to understand and takes a long time to read. Probably would have been better in-person.",
             gradeReceived: "B-",
+            likes: 4,
+            dislikes: 3,
             createdAt: Date.now(),
             updatedAt: Date.now()
         }
