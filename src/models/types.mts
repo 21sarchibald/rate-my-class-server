@@ -10,7 +10,7 @@ export interface User {
     major: string;
     userType: "Admin" | "Student";
     createdAt: Date;
-    modifiedAt: Date;
+    updatedAt: Date;
   }
 
 // Course schema
@@ -29,7 +29,7 @@ export interface Review {
   courseId: ObjectId;
   rating: number;
   difficulty: number;
-  likelihoodToRecommend: number;
+  recommend: boolean;
   professor: string;
   semester: "Winter" | "Spring" | "Summer" | "Fall";
   year: number;
@@ -40,7 +40,7 @@ export interface Review {
   likes: number;
   dislikes: number;
   createdAt: Date;
-  modifiedAt: Date;
+  updatedAt: Date;
 }
 
 export interface QueryParams {

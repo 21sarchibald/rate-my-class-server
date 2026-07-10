@@ -15,11 +15,6 @@ export const UserSchema: JSONSchema7 = {
     type: "object",
     properties: {
         _id: { type: "string" },
-        userId: {
-            type: "string",
-            "description": "Unique identifier for the user"
-        },
-
         name: {
             type: "string",
             minLength: 2,
@@ -45,15 +40,14 @@ export const UserSchema: JSONSchema7 = {
         },
         userType: {
         type: "string",
-        enum: ["student", "admin"],
+        enum: ["Student", "Admin"],
         description: "The role of the user"
         },
         createdAt: { instanceof: "Date" },
-        modifiedAt: { instanceof: "Date" }
+        updatedAt: { instanceof: "Date" }
 
     },
     required: [
-        "userId",
         "name",
         "email",
         "username",

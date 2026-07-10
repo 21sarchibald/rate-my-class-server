@@ -1,2 +1,2 @@
-import CustomError  from '../errors/CustomError.mjs';
+import CustomError from "./CustomError.mts";
 export default class EntityNotFoundError extends CustomError<ErrorCode> {}
