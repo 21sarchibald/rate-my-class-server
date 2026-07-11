@@ -4,13 +4,13 @@ import { ObjectId } from "mongodb";
 export interface User {
     _id?: ObjectId;
     name: string;
-    email: string;
     username: string;
+    email: string;
     password: string;
     major: string;
     userType: "Admin" | "Student";
     createdAt: Date;
-    modifiedAt: Date;
+    updatedAt: Date;
   }
 
 // Course schema
@@ -40,5 +40,13 @@ export interface Review {
   likes: number;
   dislikes: number;
   createdAt: Date;
-  modifiedAt: Date;
+  updatedAt: Date;
+}
+
+export interface QueryParams {
+  category?: string;
+  q?:string;
+  limit?: string;
+  offset?: string;
+  fields?: string;
 }
