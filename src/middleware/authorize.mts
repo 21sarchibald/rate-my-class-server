@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction  } from 'express';
 import jwt from 'jsonwebtoken';
 
 // Define constants for secret key and token expiration time
-const SECRET_KEY = process.env.JWT_SECRET  || 'your-secret-key'; 
+const SECRET_KEY = process.env.JWT_SECRET  || 'secret'; 
 
 // Create a middleware function to verify JWT tokens
 function authorize(req: Request, res: Response, next: NextFunction) {
@@ -17,6 +17,8 @@ function authorize(req: Request, res: Response, next: NextFunction) {
     console.log("Extracted token: ", token)
     // check for validity
     jwt.verify(token, SECRET_KEY, (err, user) => {
+      console.log("JWT verify error:", err);
+      console.log("Decoded user:", user);
         if (err) {
           //stop the request if the token is invalid
             return res.status(403).json({ message: 'Forbidden' });
