@@ -30,7 +30,8 @@ async function searchReviews(search: string): Promise<Review[] | null> {
     const data = (await mongodb.getDb().collection<Review>("reviews").find({
         $or: [
             { courseName: { $regex: search, $options: "i"}},
-            { professor: { $regex: search, $options: "i"}}
+            { professor: { $regex: search, $options: "i"}},
+            { courseCode: { $regex: search, $options: "i"}}
         ]
     })).toArray();
     return data;
