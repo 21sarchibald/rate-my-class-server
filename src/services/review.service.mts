@@ -1,4 +1,4 @@
-import reviewModel from "../models/review.model.mjs";
+import reviewModel from "../models/review.model.mts";
 // import type { Review } from "../models/types.mts";
 // import {buildPaginationWrapper, formatFields} from "./utils.mts";
 
