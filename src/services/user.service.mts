@@ -27,11 +27,21 @@ async function login(email:string, password:string) {
             // If the user exists and password matches...then generate a token using jsonwebtoken
             // Send back the token and some user info to the route either or both could be null.
             token = await generateToken(user);
-            console.log("Login successful, token generated: ", token);
+            
         }
     }
         
-    return {user, token};
+    return {
+        token,
+        user: {
+            _id: user?._id,
+            name: user?.name,
+            email: user?.email,
+            major: user?.major,
+            username: user?.username,
+            userType: user?.userType
+        }
+    };
     
 };
 
