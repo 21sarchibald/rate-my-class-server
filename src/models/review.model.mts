@@ -1,4 +1,4 @@
-import mongodb from "../database/index.mjs";
+import mongodb from "../database/index.mts";
 import type { Review } from "./types.mts";
 import { ObjectId } from "mongodb";
 
