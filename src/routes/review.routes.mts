@@ -32,7 +32,7 @@ router.get("/", async (req, res, next) => {
     }
     });
     
-// GET /products/course/:courseId
+// GET /reviews/course/:courseId
 router.get("/course/:id", async (req, res, next) => {
   
     const {id} = req.params;

@@ -118,6 +118,7 @@ const seedReviews = async (db) => {
         {
             userId: user1._id,
             courseId: course1._id,
+            courseCode: "CSE210",
             courseName: "Programming with Classes",
             rating: 5,
             difficulty: 4,
@@ -137,6 +138,8 @@ const seedReviews = async (db) => {
         {
             userId: user2._id,
             courseId: course2._id,
+            courseCode: "WDD130",
+            courseName: "Web Fundamentals",
             rating: 3,
             difficulty: 2,
             recommend: false,
@@ -151,7 +154,47 @@ const seedReviews = async (db) => {
             dislikes: 3,
             createdAt: Date.now(),
             updatedAt: Date.now()
-        }
+        },
+        {
+            userId: user2._id,
+            courseId: course1._id,
+            courseCode: "CSE210",
+            courseName: "Programming with Classes",
+            rating: 4,
+            difficulty: 5,
+            recommend: false,
+            professor: "Quinn Briggs",
+            semester: "Fall",
+            year: 2025,
+            type: "online",
+            isBlock: false,
+            description: "So hard to keep up.",
+            gradeReceived: "C-",
+            likes: 4,
+            dislikes: 3,
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+        },
+        {
+            userId: user1._id,
+            courseId: course2._id,
+            courseCode: "WDD130",
+            courseName: "Web Fundamentals",
+            rating: 4,
+            difficulty: 1,
+            recommend: true,
+            professor: "Shane Thompson",
+            semester: "Winter",
+            year: 2025,
+            type: "in-person",
+            isBlock: false,
+            description: "Super interesting and fun to learn about!",
+            gradeReceived: "A-",
+            likes: 5,
+            dislikes: 2,
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+        },
     ]
 
     try {
