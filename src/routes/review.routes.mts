@@ -62,7 +62,7 @@ router.post("/create", authorize, async (req, res, next) => {
    console.log("logged in user:", user);
 
    
-   const newReview = await reviewService.createReview(cleanBody, user.userId)
+   const newReview = await reviewService.createReview(cleanBody, user.id)
    console.log("NEW REVIEW:", newReview);
   res.status(201).json({message:"Revew created successfully", reviewId: newReview.insertedId});
 
@@ -95,9 +95,9 @@ router.put("/:id", authorize, async (req, res, next) => {
     if (!existingReview) {
       return next(new EntityNotFoundError({message : 'Existing Review not found', code: 'ERR_NF', statusCode: 404}))
     }
-    const currentUser = res.locals.user.id;
+    const currentUser = res.locals.user;
     const reviewCreator = existingReview.userId;
-    if (currentUser !== String(reviewCreator)) {
+    if (currentUser.id !== String(reviewCreator)) {
       return next(new EntityNotFoundError({message : 'User not authorized to edit review', code: 'ERR_VALID', statusCode: 403}))
     }
 
