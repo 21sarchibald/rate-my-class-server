@@ -1,5 +1,5 @@
 import reviewModel from "../models/review.model.mts";
-// import type { Review } from "../models/types.mts";
+import type { Review } from "../models/types.mts";
 // import {buildPaginationWrapper, formatFields} from "./utils.mts";
 
 
@@ -68,10 +68,15 @@ const searchReviews = async (query: string) => {
   return await reviewModel.searchReviews(query);
 }
 
+const updateReview = async (id: string, updates: Partial<Review>) => {
+  return await reviewModel.updateReview(id, updates);
+}
+
 export default {
   getReviewById,
   getReviewsByClass,
   getReviewsByProfessor,
   getReviewsByUser,
-  searchReviews
+  searchReviews,
+  updateReview
 };

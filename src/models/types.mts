@@ -37,8 +37,8 @@ export interface Review {
   isBlock: boolean;
   description: string;
   gradeReceived: "A" | "A-" | "B+" | "B" | "B-" | "C+" | "C" | "C-" | "D+" | "D" | "D-" | "F" | "P" | "W";
-  likes: number;
-  dislikes: number;
+  likes?: number;
+  dislikes?: number;
   createdAt: Date;
   updatedAt: Date;
 }
