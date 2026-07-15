@@ -100,6 +100,14 @@ const seedClasses = async (db) => {
         );
 
         console.log(result.insertedIds);
+
+        await mongodb
+        .getDb()
+        .collection("classes")
+        .createIndex(
+            { courseCode: 1 },
+            { unique: true }
+        );
     }
     catch (error) {
         console.log(error.message)
