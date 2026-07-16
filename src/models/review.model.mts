@@ -89,7 +89,11 @@ async function searchReviews(search: string): Promise<SearchResults> {
     .aggregate<{ professor: string }>([
         {
             $match: {
-                professor: { $regex: search, $options: "i" }
+                $or: [
+                    { professor: { $regex: search, $options: "i" } },
+                    { courseCode: { $regex: search, $options: "i" } },
+                    { courseName: { $regex: search, $options: "i" } }
+                ]
             }
         },
         {
