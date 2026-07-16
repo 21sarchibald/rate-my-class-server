@@ -71,6 +71,7 @@ export interface QueryParams {
 
 export interface SearchResults {
   courses: {
+      courseId: string;
       courseCode: string;
       courseName: string;
   }[];

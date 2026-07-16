@@ -41,8 +41,10 @@ async function searchReviews(search: string): Promise<SearchResults> {
     // const db = mongodb.getDb();
 
     // Find matching courses (remove duplicates)
+
     const courses = await mongodb.getDb().collection<Review>("reviews")
         .aggregate<{
+            courseId: ObjectId;
             courseCode: string;
             courseName: string;
         }>([
@@ -50,20 +52,23 @@ async function searchReviews(search: string): Promise<SearchResults> {
                 $match: {
                     $or: [
                         { courseName: { $regex: search, $options: "i" } },
-                        { courseCode: { $regex: search, $options: "i" } }
+                        { courseCode: { $regex: search, $options: "i" } },
+                        { professor: { $regex: search, $options: "i" } }
                     ]
                 }
             },
             {
                 $group: {
-                    _id: "$courseCode",
+                    _id: "$courseId",
+                    courseCode: { $first: "$courseCode" },
                     courseName: { $first: "$courseName" }
                 }
             },
             {
                 $project: {
                     _id: 0,
-                    courseCode: "$_id",
+                    courseId: "$_id",
+                    courseCode: 1,
                     courseName: 1
                 }
             }
@@ -71,15 +76,38 @@ async function searchReviews(search: string): Promise<SearchResults> {
         .toArray();
 
     // Find matching professors (remove duplicates)
-    const professors = await mongodb.getDb().collection<Review>("reviews")
-        .distinct("professor", {
-            professor: { $regex: search, $options: "i" }
-        });
+    const professors = await mongodb.getDb()
+    .collection<Review>("reviews")
+    .aggregate<{ professor: string }>([
+        {
+            $match: {
+                professor: { $regex: search, $options: "i" }
+            }
+        },
+        {
+            $group: {
+                _id: "$professor"
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                professor: "$_id"
+            }
+        }
+    ])
+    .toArray();
+
+    const professorNames = professors.map(p => p.professor);
 
     return {
-        courses,
-        professors
+        courses: courses.map(course => ({
+            ...course,
+            courseId: course.courseId.toString()
+        })),
+        professors: professorNames
     };
+
 }
 
 async function createReview(newReview: Review) {
@@ -114,3 +142,7 @@ export default {
     updateReview,
     deleteReview
 }
+
+function next(error: unknown) {
+        throw new Error("Function not implemented.");
+    }

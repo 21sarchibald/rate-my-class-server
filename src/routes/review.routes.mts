@@ -8,7 +8,6 @@ const router: Router = Router();
 
 // GET /reviews?search=
 router.get("/", async (req, res, next) => {
-  // console.log(req.headers, req.body);
   try {
 
     const cleanQuery = sanitize(req.query) as { 
@@ -16,7 +15,6 @@ router.get("/", async (req, res, next) => {
       courseId: string,
       professor: string
     }
-    console.log("params", cleanQuery);
 
     let reviewList;
 
@@ -50,13 +48,12 @@ router.get("/", async (req, res, next) => {
     });
 
 // GET /reviews/search?query=
-router.get("/", async (req, res, next) => {
+router.get("/search", async (req, res, next) => {
   try {
 
     const cleanQuery = sanitize(req.query) as { 
       query?: string,
     }
-    console.log("params", cleanQuery);
 
     let results;
 
@@ -71,6 +68,7 @@ router.get("/", async (req, res, next) => {
     res.status(200).json(results);
 
     } catch (error) {
+      console.error("Search Error:", error);
       next(error);
     }
     });
@@ -78,10 +76,7 @@ router.get("/", async (req, res, next) => {
 // POST /reviews/create
 router.post("/create", authorize, async (req, res, next) => {
   try {
-    console.log("BODY:", req.body);
-    console.log("USER:", res.locals.user);
    const cleanBody = sanitize(req.body) as CreateReviewRequest;
-   console.log("CLEAN BODY:", cleanBody);
 
    const user = res.locals.user;
 
