@@ -8,23 +8,21 @@ const router: Router = Router();
 
 // GET /reviews?search=
 router.get("/", async (req, res, next) => {
-  // console.log(req.headers, req.body);
   try {
 
     const cleanQuery = sanitize(req.query) as { 
-      search?: string,
+      // search?: string,
       courseId: string,
       professor: string
     }
-    console.log("params", cleanQuery);
 
     let reviewList;
 
-    if (cleanQuery.search) {
-      reviewList = await reviewService.searchReviews(cleanQuery.search);
-    }
+    // if (cleanQuery.search) {
+    //   reviewList = await reviewService.searchReviews(cleanQuery.search);
+    // }
 
-    else if (cleanQuery.courseId) {
+    if (cleanQuery.courseId) {
       reviewList = await reviewService.getReviewsByClass(cleanQuery.courseId);
     }
 
@@ -49,13 +47,36 @@ router.get("/", async (req, res, next) => {
     }
     });
 
+// GET /reviews/search?query=
+router.get("/search", async (req, res, next) => {
+  try {
+
+    const cleanQuery = sanitize(req.query) as { 
+      query?: string,
+    }
+
+    let results;
+
+    if (cleanQuery.query) {
+      results = await reviewService.searchReviews(cleanQuery.query);
+    }
+
+    else {
+      return next(new EntityNotFoundError({message : 'Search query required', code: 'ERR_VALID', statusCode : 400}))
+    }
+
+    res.status(200).json(results);
+
+    } catch (error) {
+      console.error("Search Error:", error);
+      next(error);
+    }
+    });
+
 // POST /reviews/create
 router.post("/create", authorize, async (req, res, next) => {
   try {
-    console.log("BODY:", req.body);
-    console.log("USER:", res.locals.user);
    const cleanBody = sanitize(req.body) as CreateReviewRequest;
-   console.log("CLEAN BODY:", cleanBody);
 
    const user = res.locals.user;
 
