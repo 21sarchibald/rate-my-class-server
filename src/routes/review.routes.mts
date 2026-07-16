@@ -11,21 +11,27 @@ router.get("/", async (req, res, next) => {
   try {
 
     const cleanQuery = sanitize(req.query) as { 
-      search?: string,
-      courseId?: string,
-      professor?: string
+      search?: string;
+      courseId?: string;
+      professor?: string;
+      userId?: string;
+    };
+
+    if (cleanQuery.search) {
+        const results = await reviewService.searchReviews(cleanQuery.search);
+        return res.status(200).json(results);
     }
 
     let reviewList;
 
-    if (cleanQuery.search) {
-        reviewList = await reviewService.searchReviews(cleanQuery.search);
-    }
-    else if (cleanQuery.courseId) {
+    if (cleanQuery.courseId) {
         reviewList = await reviewService.getReviewsByClass(cleanQuery.courseId);
     }
     else if (cleanQuery.professor) {
         reviewList = await reviewService.getReviewsByProfessor(cleanQuery.professor);
+    }
+    else if (cleanQuery.userId) {
+        reviewList = await reviewService.getReviewsByUser(cleanQuery.userId);
     }
     else {
         reviewList = await reviewService.getAllReviews();
@@ -33,16 +39,18 @@ router.get("/", async (req, res, next) => {
 
     if (!reviewList || reviewList.length === 0) {
         return next(new EntityNotFoundError({
-          message : 'Reviews Not Found',
-          code: 'ERR_NF',
-          statusCode : 404}))
-    }  
+            message: "Reviews Not Found",
+            code: "ERR_NF",
+            statusCode: 404
+        }));
+    }
+
     res.status(200).json(reviewList);
 
-    } catch (error) {
-      next(error);
-    }
-    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 // GET /reviews/search?query=
 router.get("/search", async (req, res, next) => {
