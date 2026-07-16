@@ -1,4 +1,4 @@
-import mongodb from "../database/index.mjs";
+import mongodb from "../database/index.mts";
 import type { Review } from "./types.mts";
 import { ObjectId } from "mongodb";
 
@@ -45,7 +45,7 @@ async function createReview(newReview: Review) {
 async function updateReview(ReviewId: string, updates: Partial<Review>) {
     const result = await mongodb.getDb().collection<Review>("reviews").updateOne(
         { _id: new ObjectId(ReviewId) },
-        { $set: { updates }}
+        { $set: updates }
     )
     return result
 }

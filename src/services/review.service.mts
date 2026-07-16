@@ -1,52 +1,9 @@
-import reviewModel from "../models/review.model.mjs";
-// import type { Review } from "../models/types.mts";
+import reviewModel from "../models/review.model.mts";
 // import {buildPaginationWrapper, formatFields} from "./utils.mts";
+import type { Course, CreateReviewRequest, Review } from "../models/types.mts";
+import mongodb from "../database/index.mts";
+import { ObjectId } from "mongodb";
 
-
-// const getReviewsByClass = async (query:QueryParams) => {
-
-//   let find:FindProductObj = {search: {},
-
-//     limit: query.limit? parseInt(query.limit) : 20,
-
-//     offset: query.offset? parseInt(query.offset) : 0
-
-//   }
-
-//   const {q, category, fields} = query; 
-
-//   find.fieldFilters = fields? formatFields(fields): undefined;
-
-//   if(category) {
-
-//       find.search.category = category;
-
-//   }
-
-//   if(q) {
-
-//       find.search.name = q;
-
-//       find.search.descriptionHtmlSimple = q;
-
-//   }
-
-//   // now that we know what we have send it to the model and get the results.
-
-// const data = await productModel.getAllProducts(find);
-
-// // take the results and format them correctly
-
-// const wrapper = buildPaginationWrapper(data.totalCount, query)
-
-// // don't forget to actually set the records in there.
-
-// wrapper.results = data.results
-
-// return wrapper
-
-// };
- 
 
 const getReviewById = async (id: string) => {
   return await reviewModel.getReviewById(id);
@@ -68,10 +25,67 @@ const searchReviews = async (query: string) => {
   return await reviewModel.searchReviews(query);
 }
 
+const updateReview = async (id: string, updates: Partial<Review>) => {
+  return await reviewModel.updateReview(id, updates);
+}
+const createReview = async (reviewData: CreateReviewRequest, userId: string) => {
+
+  console.log("reviewData: ", reviewData)
+
+  const normalizedCourseCode = reviewData.courseCode.toUpperCase();
+
+  const course = await mongodb.getDb().collection<Course>("classes").findOneAndUpdate(
+    {
+      courseCode: normalizedCourseCode
+    },
+    {
+      $setOnInsert: {
+        courseCode: normalizedCourseCode,
+        courseName: reviewData.courseName,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    },
+    {
+      upsert: true,
+      returnDocument: "after"
+    }
+);
+  if (!course) {
+    throw new Error("Unable to create course");
+  }
+
+  const newReview : Review = {
+    userId: new ObjectId(userId),
+    courseId: new ObjectId(course._id),
+    courseCode: normalizedCourseCode,
+    courseName: reviewData.courseName,
+    professor: reviewData.professor,
+    semester: reviewData.semester,
+    isBlock: reviewData.isBlock,
+    year: reviewData.year,
+    rating: reviewData.rating,
+    gradeReceived: reviewData.gradeReceived,
+    difficulty: reviewData.difficulty,
+    type: reviewData.type,
+    recommend: reviewData.recommend,
+    description: reviewData.description,
+    likes: 0,
+    dislikes: 0,
+    createdAt: new Date(),
+    updatedAt: new Date()
+
+  }
+
+  return await reviewModel.createReview(newReview);
+}
+
 export default {
   getReviewById,
   getReviewsByClass,
   getReviewsByProfessor,
   getReviewsByUser,
-  searchReviews
+  searchReviews,
+  updateReview,
+  createReview
 };
