@@ -2,6 +2,14 @@ import mongodb from "../database/index.mts";
 import type { Review } from "./types.mts";
 import { ObjectId } from "mongodb";
 
+async function getAllReviews(): Promise<Review[]> {
+    return await mongodb
+        .getDb()
+        .collection<Review>("reviews")
+        .find({})
+        .toArray();
+}
+
 async function getReviewById(reviewId: string): Promise<Review | null> {
     const data = (await mongodb.getDb().collection<Review>("reviews").findOne({ _id: new ObjectId(reviewId) }));
     return data;
@@ -60,6 +68,7 @@ async function deleteReview(ReviewId: string) {
 }
 
 export default {
+    getAllReviews,
     getReviewById,
     getReviewsByUser,
     getReviewsByProfessor,

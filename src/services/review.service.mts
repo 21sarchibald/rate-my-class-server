@@ -5,6 +5,10 @@ import mongodb from "../database/index.mts";
 import { ObjectId } from "mongodb";
 
 
+const getAllReviews = async () => {
+    return await reviewModel.getAllReviews();
+};
+
 const getReviewById = async (id: string) => {
   return await reviewModel.getReviewById(id);
 };
@@ -18,7 +22,7 @@ const getReviewsByProfessor = async (professorName: string) => {
 }
 
 const getReviewsByUser = async (userId: string) => {
-    return await reviewModel.getReviewsByUser(userId);
+  return await reviewModel.getReviewsByUser(userId);
 }
 
 const searchReviews = async (query: string) => {
@@ -81,6 +85,7 @@ const createReview = async (reviewData: CreateReviewRequest, userId: string) => 
 }
 
 export default {
+  getAllReviews,
   getReviewById,
   getReviewsByClass,
   getReviewsByProfessor,

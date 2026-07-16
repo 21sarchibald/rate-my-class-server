@@ -13,27 +13,24 @@ router.get("/", async (req, res, next) => {
 
     const cleanQuery = sanitize(req.query) as { 
       search?: string,
-      courseId: string,
-      professor: string
+      courseId?: string,
+      professor?: string
     }
     console.log("params", cleanQuery);
 
     let reviewList;
 
     if (cleanQuery.search) {
-      reviewList = await reviewService.searchReviews(cleanQuery.search);
+        reviewList = await reviewService.searchReviews(cleanQuery.search);
     }
-
     else if (cleanQuery.courseId) {
-      reviewList = await reviewService.getReviewsByClass(cleanQuery.courseId);
+        reviewList = await reviewService.getReviewsByClass(cleanQuery.courseId);
     }
-
     else if (cleanQuery.professor) {
-      reviewList = await reviewService.getReviewsByProfessor(cleanQuery.professor);
+        reviewList = await reviewService.getReviewsByProfessor(cleanQuery.professor);
     }
-
     else {
-      return next(new EntityNotFoundError({message : 'Search term required', code: 'ERR_VALID', statusCode : 400}))
+        reviewList = await reviewService.getAllReviews();
     }
 
     if (!reviewList || reviewList.length === 0) {
