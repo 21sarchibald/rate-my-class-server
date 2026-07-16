@@ -1,4 +1,5 @@
 import reviewModel from "../models/review.model.mts";
+// import {buildPaginationWrapper, formatFields} from "./utils.mts";
 import type { Course, CreateReviewRequest, Review } from "../models/types.mts";
 import mongodb from "../database/index.mts";
 import { ObjectId } from "mongodb";
@@ -24,6 +25,9 @@ const searchReviews = async (query: string) => {
   return await reviewModel.searchReviews(query);
 }
 
+const updateReview = async (id: string, updates: Partial<Review>) => {
+  return await reviewModel.updateReview(id, updates);
+}
 const createReview = async (reviewData: CreateReviewRequest, userId: string) => {
 
   console.log("reviewData: ", reviewData)
@@ -82,5 +86,6 @@ export default {
   getReviewsByProfessor,
   getReviewsByUser,
   searchReviews,
+  updateReview,
   createReview
 };
