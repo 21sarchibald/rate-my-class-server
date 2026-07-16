@@ -68,3 +68,11 @@ export interface QueryParams {
   offset?: string;
   fields?: string;
 }
+
+export interface SearchResults {
+  courses: {
+      courseCode: string;
+      courseName: string;
+  }[];
+  professors: string[];
+}

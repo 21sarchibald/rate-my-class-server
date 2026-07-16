@@ -12,7 +12,7 @@ router.get("/", async (req, res, next) => {
   try {
 
     const cleanQuery = sanitize(req.query) as { 
-      search?: string,
+      // search?: string,
       courseId: string,
       professor: string
     }
@@ -20,11 +20,11 @@ router.get("/", async (req, res, next) => {
 
     let reviewList;
 
-    if (cleanQuery.search) {
-      reviewList = await reviewService.searchReviews(cleanQuery.search);
-    }
+    // if (cleanQuery.search) {
+    //   reviewList = await reviewService.searchReviews(cleanQuery.search);
+    // }
 
-    else if (cleanQuery.courseId) {
+    if (cleanQuery.courseId) {
       reviewList = await reviewService.getReviewsByClass(cleanQuery.courseId);
     }
 
@@ -43,6 +43,32 @@ router.get("/", async (req, res, next) => {
           statusCode : 404}))
     }  
     res.status(200).json(reviewList);
+
+    } catch (error) {
+      next(error);
+    }
+    });
+
+// GET /reviews/search?query=
+router.get("/", async (req, res, next) => {
+  try {
+
+    const cleanQuery = sanitize(req.query) as { 
+      query?: string,
+    }
+    console.log("params", cleanQuery);
+
+    let results;
+
+    if (cleanQuery.query) {
+      results = await reviewService.searchReviews(cleanQuery.query);
+    }
+
+    else {
+      return next(new EntityNotFoundError({message : 'Search query required', code: 'ERR_VALID', statusCode : 400}))
+    }
+
+    res.status(200).json(results);
 
     } catch (error) {
       next(error);
