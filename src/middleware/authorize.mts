@@ -26,7 +26,7 @@ function authorize(req: Request, res: Response, next: NextFunction) {
         // set a copy of the user info from the token into locals so we can see it in the app.
         res.locals.user = user;
         next();
-     
+      console.log("Decoded JWT:", res.locals.user);
     } );
   } else {
     // stop the request if the token is missing
