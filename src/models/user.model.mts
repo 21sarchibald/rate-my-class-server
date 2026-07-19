@@ -1,6 +1,17 @@
 import mongodb from "../database/index.mts";
-import type { User } from "./types.mts";
+import type { User, PublicUser } from "./types.mts";
 import { ObjectId } from "mongodb";
+
+async function getAllUsers(): Promise<PublicUser[]> {
+    return await mongodb
+        .getDb()
+        .collection<User>("users")
+        .find({})
+        .project<PublicUser>({
+            password: 0
+        })
+        .toArray();
+}
 
 async function getUserById(userId: string): Promise<User | null> {
     
@@ -43,6 +54,7 @@ async function deleteUser(userId: string) {
 }
 
 export default {
+    getAllUsers,
     getUserById,
     getUserByEmail,
     getUserByUsername,

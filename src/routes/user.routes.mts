@@ -64,4 +64,22 @@ router.get('/protected', authorize, (req, res) => {
     res.json({ message: `Hello, ${res.locals.user.email}!` });
 });
 
+router.get("/", authorize, async (req, res, next) => {
+    try {
+
+        if (res.locals.user.userType !== "Admin") {
+            return res.status(403).json({
+                message: "Admin access required"
+            });
+        }
+
+        const users = await userService.getAllUsers();
+
+        res.status(200).json(users);
+
+    } catch(err) {
+        next(err);
+    }
+});
+
 export default router; // Export the router to use it in the main file
