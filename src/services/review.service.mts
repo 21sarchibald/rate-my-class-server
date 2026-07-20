@@ -84,6 +84,10 @@ const createReview = async (reviewData: CreateReviewRequest, userId: string) => 
   return await reviewModel.createReview(newReview);
 }
 
+const deleteReview = async (id: string) => {
+    return await reviewModel.deleteReview(id);
+};
+
 export default {
   getAllReviews,
   getReviewById,
@@ -92,5 +96,6 @@ export default {
   getReviewsByUser,
   searchReviews,
   updateReview,
-  createReview
+  createReview,
+  deleteReview
 };

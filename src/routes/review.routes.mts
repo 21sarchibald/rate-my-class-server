@@ -149,4 +149,57 @@ router.put("/:id", authorize, async (req, res, next) => {
   }
 });
 
+router.delete("/:id", authorize, async (req, res, next) => {
+    try {
+        const { id } = req.params as { id: string };
+
+        const review = await reviewService.getReviewById(id);
+
+        if (!review) {
+            return next(new EntityNotFoundError({
+                message: "Review not found",
+                code: "ERR_NF",
+                statusCode: 404
+            }));
+        }
+
+        const currentUser = res.locals.user;
+
+        console.log("Current user:", res.locals.user);
+        console.log("Review owner:", review.userId.toString());
+        console.log("User type:", res.locals.user.userType);
+
+        const isOwner =
+            currentUser.id === review.userId.toString();
+
+        const isAdmin =
+            currentUser.userType === "Admin";
+
+        if (!isOwner && !isAdmin) {
+            return next(new EntityNotFoundError({
+                message: "Not authorized",
+                code: "ERR_VALID",
+                statusCode: 403
+            }));
+        }
+
+        const result = await reviewService.deleteReview(id);
+
+        if (result.deletedCount === 0) {
+            return next(new EntityNotFoundError({
+                message: "Review not deleted",
+                code: "ERR_NF",
+                statusCode: 404
+            }));
+        }
+
+        res.status(200).json({
+            message: "Review deleted"
+        });
+
+    } catch (err) {
+        next(err);
+    }
+});
+
 export default router; // Export the router to use it in the main file
