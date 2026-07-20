@@ -13,6 +13,17 @@ export interface User {
     updatedAt: Date;
   }
 
+export interface PublicUser {
+    _id?: ObjectId;
+    name: string;
+    username: string;
+    email: string;
+    major: string;
+    userType: "Admin" | "Student";
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 // Course schema
 export interface Course {
   _id?: ObjectId;

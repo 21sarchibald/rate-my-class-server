@@ -8,13 +8,9 @@ import addKeywords from "ajv-keywords";
 import { UserSchema } from "../database/json-schema.ts";
 import EntityNotFoundError from "../errors/EntityNotFoundError.mts";
 
-// for some reason typescript doesn't like this even though it is exactly how the documentation says to use these. We are just going to ignore the types for now
-// @ts-ignore
-// const ajv = new Ajv();
-// // @ts-ignore
-// addFormats(ajv);
-// // @ts-ignore
-// addKeywords(ajv, "instanceof");
+async function getAllUsers() {
+    return await userModel.getAllUsers();
+}
 
 async function login(email:string, password:string) {
     // Check if the user exists in the database. the user will be providing an email as identifier...so we will need a function in the model to retrieve a user by email
@@ -62,6 +58,7 @@ async function register(email:string, password:string, name:string) {
 }
 
 export default {
+    getAllUsers,
     login,
     register
 };
